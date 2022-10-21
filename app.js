@@ -13,10 +13,6 @@ app.get("/", (req, res) => {
     res.status(200).send("home page");
 });
 
-app.get("/hi", requireAuth,(req, res) => {
-    res.send("hello")
-});
-
 app.listen(5000, () => {
     console.log("server in running");
 });
