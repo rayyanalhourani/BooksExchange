@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const jwt = require("jsonwebtoken")
 
-const requireAuth = (req , res ,next) =>{
+const authorization = (req , res ,next) =>{
     const token = req.cookies.jwt;
 
     if(token){
@@ -12,7 +12,6 @@ const requireAuth = (req , res ,next) =>{
                 res.redirect('/login')
             }
             else{
-                console.log(decodedToken);
                 next();
             }
         })
@@ -22,4 +21,4 @@ const requireAuth = (req , res ,next) =>{
     }
 }
 
-module.exports = {requireAuth};
+module.exports = {authorization};

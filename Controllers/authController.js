@@ -3,6 +3,8 @@ require('dotenv').config()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 let { getconnection } = require("../Model/database")
+const jwtDecode = require("jwt-decode")
+
 
 
 module.exports.signup_get = (req, res) => {
@@ -66,4 +68,23 @@ module.exports.login_post = (req, res) => {
 module.exports.logout_get = (req, res) => {
     res.cookie('jwt','',{expiresIn:'1s'})
     res.redirect('/');
+}
+
+module.exports.deleteUser = (req, res) => {
+    let token = req.cookies.jwt
+    let ownerId=jwtDecode(token).id
+    let sql = `delete from book where book_owner_id = ${ownerId}`;
+
+    getconnection().query(sql, (err, result) => {
+    });
+
+    sql = `delete from user where id = ${ownerId}`;
+
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.status(201).send("user deleted successfully");
+        }
+    });
 }
