@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const authRoutes = require("./routes/authRoute")
+const bookRoutes = require("./routes/bookRoute")
+
 const cookiesParser = require('cookie-parser')
-const {requireAuth} = require("./middleware/authMiddleware")
 
 app.use(express.json()); 
 app.use(cookiesParser())
 app.use(authRoutes)
+app.use(bookRoutes)
 
 
 app.get("/", (req, res) => {
