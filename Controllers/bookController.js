@@ -19,10 +19,32 @@ module.exports.books_post= (req , res) => {
 
 }
 
-module.exports.books_get={
+module.exports.books_get= (req , res) =>{
+
+    const sql = `select * from book`;
+
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.status(201).send(result);
+        }
+    });
     
 }
 
-module.exports.books_delete={
+module.exports.books_delete= (req , res) =>{
+
+    let bookid = req.body.bookid
+
+    const sql = `delete from book where id = ${bookid}`;
+
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.status(201).send("book deleted successfully");
+        }
+    });
     
 }
