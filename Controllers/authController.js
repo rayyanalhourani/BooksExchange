@@ -52,7 +52,6 @@ module.exports.login_post = (req, res) => {
                 if (bcrypt.compareSync(password, result[0].password)) {
                     const token = createToken(id)
                     res.cookie('jwt',token , {httpOnly : true})
-                    res.send(token)
                 }
                 else {
                     res.send("wrong password")

@@ -8,7 +8,6 @@ const authorization = (req , res ,next) =>{
     if(token){
         jwt.verify(token , process.env.ACCESS_TOKEN_SECRET , (err , decodedToken)=>{
             if(err){
-                console.log(err);
                 res.redirect('/login')
             }
             else{
