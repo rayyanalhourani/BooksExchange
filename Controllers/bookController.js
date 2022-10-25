@@ -29,16 +29,41 @@ module.exports.books_get= (req , res) =>{
         } else {
             res.status(201).send(result);
         }
-    });
-    
+    });   
 }
 
 module.exports.books_delete= (req , res) =>{
-
+    let token = req.cookies.jwt
+    let userid = jwtDecode(token)
     let bookid = req.body.bookid
 
-    const sql = `delete from book where id = ${bookid}`;
+    console.log(token);
+    console.log(userid);
+    console.log(bookid);
 
+
+    let sql = `Select book_owner_id from book where id = ${bookid}`
+    let book_owner_id = "";
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            book_owner_id=result;
+        }
+    });
+
+    sql = `Select Role from user where id = ${userid}`
+    let userRole="";
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            userRole=result;
+        }
+    });
+
+    if(userRole==="admin" || book_owner_id===userid){
+    sql = `delete from book where id = ${bookid}`;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
@@ -46,5 +71,10 @@ module.exports.books_delete= (req , res) =>{
             res.status(201).send("book deleted successfully");
         }
     });
-    
+}
+
+else{
+    res.send("you dont have permission")
+}
+   
 }
