@@ -34,7 +34,7 @@ module.exports.signup_post = (req, res) => {
 }
 
 const createToken = (id)=>{
-    return jwt.sign({id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: '30s'})
+    return jwt.sign({id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1m'})
 }
 
 
@@ -52,6 +52,7 @@ module.exports.login_post = (req, res) => {
                 if (bcrypt.compareSync(password, result[0].password)) {
                     const token = createToken(id)
                     res.cookie('jwt',token , {httpOnly : true})
+                    res.redirect('/')
                 }
                 else {
                     res.send("wrong password")
@@ -66,7 +67,7 @@ module.exports.login_post = (req, res) => {
 
 module.exports.logout_get = (req, res) => {
     res.cookie('jwt','',{expiresIn:'1s'})
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 module.exports.deleteUser = (req, res) => {
