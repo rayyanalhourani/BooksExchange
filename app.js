@@ -1,14 +1,12 @@
 const express = require("express");
 const app = express();
-const authRoutes = require("./routes/authRoute")
-const bookRoutes = require("./routes/bookRoute")
+const Routes = require("./Controllers/index")
 
 const cookiesParser = require('cookie-parser')
 
 app.use(express.json()); 
 app.use(cookiesParser())
-app.use(authRoutes)
-app.use(bookRoutes)
+app.use(Routes)
 
 
 app.get("/", (req, res) => {
@@ -16,5 +14,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(5000, () => {
-    console.log("server in running");
+    console.log("server is running");
 });
