@@ -34,7 +34,7 @@ module.exports.signup_post = (req, res) => {
 }
 
 const createToken = (id)=>{
-    return jwt.sign({id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1m'})
+    return jwt.sign({id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'})
 }
 
 
