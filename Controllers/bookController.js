@@ -34,35 +34,39 @@ module.exports.books_get= (req , res) =>{
 
 module.exports.books_delete= (req , res) =>{
     let token = req.cookies.jwt
-    let userid = jwtDecode(token)
+    let userid = jwtDecode(token).id
     let bookid = req.body.bookid
 
-    console.log(token);
-    console.log(userid);
-    console.log(bookid);
 
 
     let sql = `Select book_owner_id from book where id = ${bookid}`
-    let book_owner_id = "";
+    let owner_id;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
         } else {
-            book_owner_id=result;
+            owner_id=result[0].book_owner_id;
+            console.log(owner_id);
         }
     });
 
     sql = `Select Role from user where id = ${userid}`
-    let userRole="";
+    let userRole;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
         } else {
-            userRole=result;
+            userRole=result[0].Role; 
+            console.log(userRole);
         }
     });
 
-    if(userRole==="admin" || book_owner_id===userid){
+    console.log("role",userRole);
+    console.log("owner_id",owner_id);
+
+    
+
+    if(userRole==="admin" || owner_id===userid){
     sql = `delete from book where id = ${bookid}`;
     getconnection().query(sql, (err, result) => {
         if (err) {
