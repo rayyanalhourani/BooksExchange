@@ -101,3 +101,19 @@ module.exports.books_delete = (req, res) => {
     setTimeout(delete_book, 5000)
 
 }
+
+module.exports.myBooks_get= (req,res)=>{
+    let token = req.cookies.jwt
+    let userid = jwtDecode(token).id
+    
+    let sql = `select name from book where book_owner_id = ${userid}`;
+                getconnection().query(sql, (err, result) => {
+                    if (err) {
+                        res.status(404).send(err);
+                    } else {
+                        res.status(201).send(result);
+                    }
+                });
+
+
+}

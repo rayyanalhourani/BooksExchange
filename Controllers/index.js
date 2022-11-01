@@ -19,6 +19,7 @@ router.delete('/deleteUser',authController.deleteUser)
 //bookRouter
 router.post("/books",authorization ,bookController.books_post)
 router.get("/books",authorization,bookController.books_get)
+router.get("/mybooks",authorization,bookController.myBooks_get)
 router.delete("/books",authorization,bookController.books_delete)
 
 
