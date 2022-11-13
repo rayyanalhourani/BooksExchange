@@ -12,7 +12,7 @@ module.exports.signup_get = (req, res) => {
 }
 
 module.exports.login_get = (req, res) => {
-    res.send("login page")
+    res.render('../Views/login.ejs')
 }
 
 module.exports.signup_post = (req, res) => {
@@ -39,6 +39,7 @@ const createToken = (id)=>{
 
 
 module.exports.login_post = (req, res) => {
+
     const id = req.body.id
     const password = req.body.password
 
