@@ -8,7 +8,7 @@ const jwtDecode = require("jwt-decode")
 
 
 module.exports.signup_get = (req, res) => {
-    res.send("signup page")
+    res.render("../Views/signup.ejs")
 }
 
 module.exports.login_get = (req, res) => {
