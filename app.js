@@ -11,11 +11,6 @@ app.use(Routes)
 app.set("view engine", "ejs");
 app.use(express.static('public'))
 
-
-
-
-
-  
 app.get("/", (req, res) => {
     res.status(200).send("home page");
 });
