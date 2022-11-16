@@ -1,7 +1,15 @@
 const jwtDecode = require("jwt-decode")
 let { getconnection } = require("../Model/database")
 
-module.exports.books_post = (req, res) => {
+module.exports.AddBook_get = (req, res) => {
+    res.render("../Views/AddBook.ejs");
+}
+
+module.exports.home_get= (req, res) => {
+    res.render("../Views/home.ejs")
+};
+
+module.exports.AddBook_post = (req, res) => {
     let bookid = req.body.bookid
     let name = req.body.name
     let collage = req.body.collage

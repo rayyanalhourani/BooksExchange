@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken")
 let { getconnection } = require("../Model/database")
 const jwtDecode = require("jwt-decode")
 
-
-
 module.exports.signup_get = (req, res) => {
     res.render("../Views/signup.ejs")
 }
