@@ -28,12 +28,6 @@
       
       margin: auto;
       box-shadow: 2px 2px 10px 2px lightslategray;
-
-      
-}
-
-body{
-      background: #76b852;
 }
 
 .input{
@@ -58,6 +52,54 @@ body{
       color: white;
 
     }
+
+    /* nav bar start */
+
+    * {box-sizing: border-box;}
+    nav {
+       overflow: hidden;
+       background-color: #76b852;
+       padding: 10px;
+    }
+    .links {
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       font-weight: bold;
+       float: left;
+       color:white;
+       text-align: center;
+       padding: 12px;
+       text-decoration: none;
+       font-size: 18px;
+       line-height: 25px;
+       border-radius: 4px;
+    }
+    nav .logo {
+       font-size: 25px;
+       font-weight: bold;
+    }
+    nav .links:hover {
+       background-color: #76b852;
+       color: rgb(0, 0, 0);
+    }
+    nav .selected {
+       background-color: rgb(255, 255, 255);
+       color: #76b852;
+    }
+    .rightSection {
+       float: right;
+    }
+    @media screen and (max-width: 870px) {
+       nav .links {
+          float: none;
+          display: block;
+          text-align: left;
+       }
+       .rightSection {
+          float: none;
+       }
+    }
+
+    /* nav bar end */
 
 
  
