@@ -2,15 +2,23 @@ const jwtDecode = require("jwt-decode");
 let { getconnection } = require("../Model/database");
 
 module.exports.home_get = (req, res) => {
-    const sql = `select * from book`;
-
-    let data = "hi";
-
+   let users=""
+    sql = `select id,name from user`;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
         } else {
-            res.render("../Views/home.ejs", { result });
+            users=result
+        }
+    });
+
+    
+   sql = `select * from book`;
+    getconnection().query(sql, (err, result) => {
+        if (err) {
+            res.status(404).send(err);
+        } else {
+            res.render("../Views/home.ejs", {result,users});
         }
     });
 };
@@ -37,8 +45,8 @@ module.exports.AddBook_post = (req, res) => {
 };
 
 module.exports.books_get = (req, res) => {
-    const sql = `select * from book`;
 
+    const sql = `select * from book`;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
@@ -66,17 +74,23 @@ module.exports.books_delete = (req, res) => {
             }
         });
     } catch {
-        res.status(404).send("you cant delete this book");
+        res.status(404).send("error with get owner id");
     }
 
-    sql = `Select Role from user where id = ${userid}`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            userRole = result[0].Role;
-        }
-    });
+    try {
+        sql = `Select Role from user where id = ${userid}`;
+        getconnection().query(sql, (err, result) => {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+                userRole = result[0].Role;
+            }
+        });
+    }
+    catch {
+        res.status(404).send("error with get user role");
+
+    }
 
     try {
         sql = `delete from book where id = ${bookid}`;
@@ -92,7 +106,7 @@ module.exports.books_delete = (req, res) => {
             }
         });
     } catch {
-        res.status(404).send("you can't delete the book");
+        res.status(404).send("error with delete book");
     }
 };
 

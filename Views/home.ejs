@@ -17,5 +17,34 @@
         <a class="links" href="./logout">logout</a>
       </div>
     </nav>
+
+
+    <div></div>
+    <table border="2" >
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Collage</th>
+        <th>OwnerID</th>
+        <th>Owner name</th>
+      </tr>
+
+      <% result.forEach(element => { %>
+        <tr>
+          <td><%= element.name  %></td>
+            <td><%= element.id  %></td> 
+          <td><%= element.collage  %></td>
+            <td><%= element.book_owner_id  %></td>
+            <td><%= users.filter(user => user.id === element.book_owner_id)[0].name  %></td>
+
+        </tr>
+        <% }); %> 
+
+      
+
+
+      
+    </table>
+
   </body>
 </html>
