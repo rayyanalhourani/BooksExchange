@@ -35,7 +35,7 @@
             <td><%= element.id  %></td> 
           <td><%= element.collage  %></td>
             <td><%= element.book_owner_id  %></td>
-            <td><%= users.filter(user => user.id === element.book_owner_id)[0].name  %></td>
+            <td><%= dict[element.book_owner_id]  %></td>
 
         </tr>
         <% }); %> 

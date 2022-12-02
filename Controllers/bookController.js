@@ -1,26 +1,41 @@
 const jwtDecode = require("jwt-decode");
+const async = require("async")
 let { getconnection } = require("../Model/database");
 
-module.exports.home_get = (req, res) => {
-   let users=""
-    sql = `select id,name from user`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            users=result
-        }
-    });
 
-    
-   sql = `select * from book`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            res.render("../Views/home.ejs", {result,users});
-        }
-    });
+module.exports.home_get = (req, res) => {
+    let dict = {}
+
+    async.series(
+        [
+            function (callback) {
+                sql = `select id,name from user`;
+                getconnection().query(sql, (err, result) => {
+                    if (err) {
+                        res.status(404).send(err);
+                    } else {
+                        result.forEach(element => {
+                            dict[element.id]=element.name 
+                        });
+                    }
+                });
+                callback();
+            },
+            function (callback) {
+                sql = `select * from book`;
+                getconnection().query(sql, (err, result) => {
+                    if (err) {
+                        res.status(404).send(err);
+                    } else {
+                        console.log(dict);
+                        res.render("../Views/home.ejs", { result,dict});
+                    }
+                });
+                callback() // call this to proceed
+            }
+        ],
+    )
+
 };
 
 module.exports.AddBook_get = (req, res) => {
@@ -114,12 +129,15 @@ module.exports.myBooks_get = (req, res) => {
     let token = req.cookies.jwt;
     let userid = jwtDecode(token).id;
 
-    let sql = `select name from book where book_owner_id = ${userid}`;
+    let sql = `select * from book where book_owner_id = ${userid}`;
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
         } else {
-            res.status(201).send(result);
+            console.log(result);
+            res.render("../Views/MyBooks.ejs", result);
         }
     });
+
+
 };
