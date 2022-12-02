@@ -27,7 +27,6 @@ module.exports.home_get = (req, res) => {
                     if (err) {
                         res.status(404).send(err);
                     } else {
-                        console.log(dict);
                         res.render("../Views/home.ejs", { result,dict});
                     }
                 });
@@ -54,7 +53,7 @@ module.exports.AddBook_post = (req, res) => {
         if (err) {
             res.status(404).send(err);
         } else {
-            res.status(201).send("book added successfully");
+            res.redirect('/')
         }
     });
 };
@@ -128,16 +127,40 @@ module.exports.books_delete = (req, res) => {
 module.exports.myBooks_get = (req, res) => {
     let token = req.cookies.jwt;
     let userid = jwtDecode(token).id;
+    let userRole;
 
-    let sql = `select * from book where book_owner_id = ${userid}`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            console.log(result);
-            res.render("../Views/MyBooks.ejs", result);
-        }
-    });
+    let sql = `Select Role from user where id = ${userid}`;
+        getconnection().query(sql, (err, result) => {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+                userRole = result[0].Role;
+
+                if(userRole==="admin"){
+                    sql = `select * from book`;
+                    getconnection().query(sql, (err, result) => {
+                        if (err) {
+                            res.status(404).send(err);
+                        } else {
+                            res.render("../Views/MyBooks.ejs", {result});
+                        }
+                    });
+                }
+
+                else{
+                    sql = `select * from book where book_owner_id = ${userid}`;
+                    getconnection().query(sql, (err, result) => {
+                        if (err) {
+                            res.status(404).send(err);
+                        } else {
+                            res.render("../Views/MyBooks.ejs", {result});
+                        }
+                    });
+                }
+            }
+        });
+    
+    
 
 
 };
