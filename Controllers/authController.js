@@ -74,11 +74,7 @@ module.exports.deleteUser = (req, res) => {
     let ownerId=jwtDecode(token).id
     let sql = `delete from book where book_owner_id = ${ownerId}`;
 
-    getconnection().query(sql, (err, result) => {
-    });
-
     sql = `delete from user where id = ${ownerId}`;
-
     getconnection().query(sql, (err, result) => {
         if (err) {
             res.status(404).send(err);
