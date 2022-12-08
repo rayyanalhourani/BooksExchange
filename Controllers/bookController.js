@@ -12,35 +12,6 @@ module.exports.home_get = async (req, res) => {
     let books = await DB.query(sql);
     books=books[0];
     res.render("../Views/home.ejs", { books});
-    
-
-
-    // async.series(
-    //     [
-    //         function (callback) {
-    //             sql = `select id,name from user`;
-    //             getconnection().query(sql, (err, result) => {
-    //                 if (err) {
-    //                     res.status(404).send(err);
-    //                 } else {
-    //                     
-    //                 }
-    //             });
-    //             callback();
-    //         },
-    //         function (callback) {
-    //             sql = `select * from book`;
-    //             getconnection().query(sql, (err, result) => {
-    //                 if (err) {
-    //                     res.status(404).send(err);
-    //                 } else {
-    //                    
-    //                 }
-    //             });
-    //             callback() // call this to proceed
-    //         }
-    //     ],
-    // )
 
 };
 
