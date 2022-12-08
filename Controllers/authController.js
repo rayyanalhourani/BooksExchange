@@ -78,7 +78,7 @@ module.exports.login_post = async (req, res) => {
       if (checkpass){
           let token = createToken(user.id); 
           res.cookie('jwt',token , {httpOnly : true})
-          res.send('home page')
+          res.redirect('/')
       }
 
       else{
@@ -110,24 +110,10 @@ module.exports.deleteUser =async (req, res) => {
         await User.destroy({where:{'id':id}})
         res.redirect('/login')
     }
-
     else{
       console.log("no user with that id");
     }
   } catch (error) {
     console.log(error);
   }
-
-
-
-
-
-  // sql = `delete from user where id = ${ownerId}`;
-  // getconnection().query(sql, (err, result) => {
-  //     if (err) {
-  //         res.status(404).send(err);
-  //     } else {
-  //         res.status(201).send("user deleted successfully");
-  //     }
-  // });
 }

@@ -17,6 +17,8 @@ app.use(express.static('public'))
 
 User.hasMany(Book);
 
+//{force:true} to drop tables
+
 sequelize.sync()
 .then(result =>{ console.log("every thing is ok")})
 .catch(err => {console.log(err)})
