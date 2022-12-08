@@ -29,13 +29,13 @@
         <th>Owner name</th>
       </tr>
 
-      <% result.forEach(element => { %>
+      <% books.forEach(element => { %>
         <tr>
-          <td><%= element.name  %></td>
+          <td><%= element.book_name  %></td>
             <td><%= element.id  %></td> 
           <td><%= element.collage  %></td>
-            <td><%= element.book_owner_id  %></td>
-            <td><%= dict[element.book_owner_id]  %></td>
+            <td><%= element.userId  %></td>
+            <td><%= element.name  %></td>
 
         </tr>
         <% }); %> 

@@ -26,7 +26,7 @@
         <th>Delete</th>
       </tr>
 
-      <% result.forEach(element => { %>
+      <% books.forEach(element => { %>
       <tr>
         <td><%= element.name %></td>
         <td><%= element.id %></td>
@@ -39,7 +39,7 @@
      
       function del(butID){
         console.log(butID);
-        window.location.reload();
+        
       fetch("http://localhost:5000/books", {
         method: "DELETE",
         headers: {
@@ -48,8 +48,8 @@
         },
         body: JSON.stringify({ "bookid": butID }),
       })
-        .then((response) => response.json())
-        .then((response) => console.log(JSON.stringify(response)));
+        .then((response) =>window.location.reload())
+        
     }
     </script>
   </body>
