@@ -1,85 +1,133 @@
 require('dotenv').config()
 
 const bcrypt = require("bcrypt")
+const e = require('express')
 const jwt = require("jsonwebtoken")
-let { getconnection } = require("../Model/database")
 const jwtDecode = require("jwt-decode")
+const DB = require('../config/Database')
+const User = require('../models/User')
+
 
 module.exports.signup_get = (req, res) => {
-    res.render("../Views/signup.ejs")
+  res.render("../Views/signup.ejs")
 }
 
 module.exports.login_get = (req, res) => {
-    res.render('../Views/login.ejs')
+  res.render('../Views/login.ejs')
 }
 
-module.exports.signup_post = (req, res) => {
-    let id = req.body.id,
-        name = req.body.name,
-        email = req.body.email,
-        password = bcrypt.hashSync(req.body.password, 10),
-        collage = req.body.collage,
-        phone = req.body.phone;
+module.exports.signup_post = async (req, res, next) => {
+  let { id, name, email, password, collage, phone } = req.body;
 
-    const sql = `INSERT INTO user (id,name,password,collage,phone,email) VALUES ("${id}","${name}","${password}","${collage}","${phone}","${email}")`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            res.status(201).send("signup successfully");
-        }
+  try {
+    const username = await User.findOne({
+      where: {
+        id: req.body.id,
+      },
     });
+    //if username exist in the database respond with a status of 409
+    if (username) {
+      return res.json(409).send("ID already taken");
+    }
+
+    else {
+      let data = {
+        id,
+        name,
+        password: await bcrypt.hash(password, 10),
+        collage,
+        phone,
+        email,
+        role: "user"
+      };
+
+      const user = User.create(data)
+
+      if (user) {
+        res.redirect("/login")
+      }
+
+      else {
+        res.json("user doesn't created")
+      }
+    }
+
+    next();
+  }
+
+  catch (error) {
+    console.log(error);
+  }
 }
 
-const createToken = (id)=>{
-    return jwt.sign({id},process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'})
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
 }
 
 
-module.exports.login_post = (req, res) => {
+module.exports.login_post = async (req, res) => {
 
-    const id = req.body.id
-    const password = req.body.password
+  const id = req.body.id
+  const password = req.body.password
 
-    const sql = `select password from books_exchange.user where id like ${id}`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
+  let user =await User.findOne({where:{'id':id}})
+  
+  try {
+    if (user) {
+      let checkpass =await bcrypt.compare(password, user.password)
+      if (checkpass){
+          let token = createToken(user.id); 
+          res.cookie('jwt',token , {httpOnly : true})
+          res.send('home page')
+      }
 
-            try {
-                if (bcrypt.compareSync(password, result[0].password)) {
-                    const token = createToken(id)
-                    res.cookie('jwt',token , {httpOnly : true})
-                    res.redirect('/')
-                }
-                else {
-                    res.send("wrong password")
-                }
-            }
-            catch {
-                res.send("invalid ID")
-            }
-        }
-    })
+      else{
+        res.json("wrong password")
+      }
+    }
+
+    else{
+      res.json("wrong id")
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
 }
 
 module.exports.logout_get = (req, res) => {
-    res.cookie('jwt','',{expiresIn:'1s'})
-    res.redirect('/login');
+  res.cookie('jwt', '', { expiresIn: '1s' })
+  res.redirect('/login');
 }
 
-module.exports.deleteUser = (req, res) => {
-    let token = req.cookies.jwt
-    let ownerId=jwtDecode(token).id
-    let sql = `delete from book where book_owner_id = ${ownerId}`;
+module.exports.deleteUser =async (req, res) => {
+  let token = req.cookies.jwt
+  let id = jwtDecode(token).id
+  let user =await User.findOne({where:{'id':id}})
 
-    sql = `delete from user where id = ${ownerId}`;
-    getconnection().query(sql, (err, result) => {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            res.status(201).send("user deleted successfully");
-        }
-    });
+  try {
+    if(user){
+        await User.destroy({where:{'id':id}})
+        res.redirect('/login')
+    }
+
+    else{
+      console.log("no user with that id");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+
+
+
+
+  // sql = `delete from user where id = ${ownerId}`;
+  // getconnection().query(sql, (err, result) => {
+  //     if (err) {
+  //         res.status(404).send(err);
+  //     } else {
+  //         res.status(201).send("user deleted successfully");
+  //     }
+  // });
 }
