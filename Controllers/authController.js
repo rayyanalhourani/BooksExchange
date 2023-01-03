@@ -27,7 +27,7 @@ module.exports.signup_post = async (req, res, next) => {
     });
     //if username exist in the database respond with a status of 409
     if (username) {
-      res.send('<script>alert("ID already taken"); window.location.href = "/login"; </script>');
+      res.send('<script>alert("ID already taken"); window.location.href = "/signup"; </script>');
 
     }
 
