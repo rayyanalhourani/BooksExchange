@@ -37,7 +37,8 @@ module.exports.AddBook_post = async (req, res) => {
             res.redirect('/Addbook')
         }
         else {
-            console.log("book doesn't added");
+
+            res.send("<script>alert('book doesn't added'); window.location.href = '/Addbook'; </script>");
         }
     }
     catch (error) {
@@ -62,7 +63,7 @@ module.exports.books_delete =async (req, res) => {
             res.redirect('/')
         }
         else{
-            res.send("you dont have permission to delete book");
+            res.send("<script>alert('you dont have permission to delete book'); window.location.href = '/mybooks'; </script>");
         }
         
     } catch (error) {

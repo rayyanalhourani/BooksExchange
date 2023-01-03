@@ -27,7 +27,8 @@ module.exports.signup_post = async (req, res, next) => {
     });
     //if username exist in the database respond with a status of 409
     if (username) {
-      return res.json(409).send("ID already taken");
+      res.send('<script>alert("ID already taken"); window.location.href = "/login"; </script>');
+
     }
 
     else {
@@ -48,7 +49,7 @@ module.exports.signup_post = async (req, res, next) => {
       }
 
       else {
-        res.json("user doesn't created")
+        res.send("<script>alert('user doesn't created'); window.location.href = '/signup'; </script>");
       }
     }
 
@@ -82,12 +83,12 @@ module.exports.login_post = async (req, res) => {
       }
 
       else{
-        res.json("wrong password")
+        res.send('<script>alert("Wrong password"); window.location.href = "/login";</script>');
       }
     }
 
     else{
-      res.json("wrong id")
+      res.send('<script>alert("Wrong ID"); window.location.href = "/login";</script>');       
     }
   } catch (error) {
     console.log(error);
