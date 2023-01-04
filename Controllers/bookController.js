@@ -11,12 +11,14 @@ module.exports.home_get = async (req, res) => {
     
     let books = await DB.query(sql);
     books=books[0];
-    res.render("../Views/home.ejs", { books});
+    let title= "Home Page"
+    res.render("../Views/home.ejs", { title, books});
 
 };
 
 module.exports.AddBook_get = (req, res) => {
-    res.render("../Views/AddBook.ejs");
+    let title= "Add book"
+    res.render("../Views/AddBook.ejs",{title});
 };
 
 module.exports.AddBook_post = async (req, res) => {
@@ -79,7 +81,7 @@ module.exports.myBooks_get =async (req, res) => {
     let user = await User.findOne({where:{'id':userid}});
     let userRole=user.role;
     let books="";
-
+    let title= "my books"
     if(userRole==="admin"){
         books = await Book.findAll();
     }
@@ -87,7 +89,7 @@ module.exports.myBooks_get =async (req, res) => {
     else{
         books = await Book.findAll({where:{'userId':userid}});
     }
-    res.render("../Views/MyBooks.ejs", {books});
+    res.render("../Views/MyBooks.ejs", {title , books});
 
     
 };
