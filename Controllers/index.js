@@ -11,6 +11,9 @@ router.post('/signup', authController.signup_post)
 router.get('/login', authController.login_get)
 router.post('/login', authController.login_post)
 router.get('/logout', authController.logout_get)
+router.get('./EditMyProfile' , authorization , authController.EditMyProfile_get)
+router.get('./EditMyProfile' , authorization , authController.EditMyProfile_post)
+router.get('./Profile' , authorization , authController.Profile_get)
 router.delete('/deleteUser', authController.deleteUser)
 
 //bookRouter
