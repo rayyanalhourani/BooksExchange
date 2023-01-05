@@ -12,27 +12,24 @@
     
 </head>
 <body style="background: #76b852;">
-
     <div class="signup-box">
         <p style="text-align: center; font-size: 50px;margin: 0;font-weight: bold;">Signup</p> 
-
         <form action="/signup" method="POST" >
-            <input type="text" name="id" class="input" placeholder="id">
+            <input type="text" name="id" class="input" placeholder="id" id="id" minlength="9" maxlength="9">
             <br>
-            <input type="text" name="name" class="input" placeholder="name">
+            <input type="text" name="name" class="input" placeholder="name" minlength="5">
             <br>
             <input type="email" name="email" class="input" placeholder="email">
             <br>
-            <input type="password" name="password" class="input" placeholder="password">
+            <input type="password" name="password" class="input" placeholder="password" id="pswd">
             <br>
             <input type="text" name="collage" class="input" placeholder="collage">
             <br>
-            <input type="number" name="phone" class="input" placeholder="phone number">
+            <input type="number" name="phone" class="input" placeholder="phone number" minlength="10" maxlength="10">
             <br>
             <input type="submit" class="input" value="Creat account" style="width:135px; margin-left: 145px;">
         </form>
         
     </div>
-    
 </body>
 </html>
