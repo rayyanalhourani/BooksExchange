@@ -5,7 +5,7 @@ const User = sequelize.define("user", {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true, 
     },
     name: {
         type: Sequelize.STRING,
@@ -31,6 +31,14 @@ const User = sequelize.define("user", {
         type: Sequelize.STRING,
         allowNull :false
     },
+    facebook:{
+        type: Sequelize.STRING,
+        allowNull :true
+    },
+    linkedin:{
+        type: Sequelize.STRING,
+        allowNull :true
+    }
 })
 
 module.exports = User
