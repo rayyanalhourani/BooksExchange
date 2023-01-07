@@ -118,3 +118,40 @@ module.exports.deleteUser =async (req, res) => {
     console.log(error);
   }
 }
+
+module.exports.EditProfile_get = async (req, res)=>{
+  let token = req.cookies.jwt;
+  let userid = jwtDecode(token).id;
+  let user =await User.findOne({where:{'id':userid}})
+
+  let title = "edit profile"
+
+  if(userid==user.id){
+  res.render("../Views/EditProfile.ejs",{title,userid,user})
+  }
+
+  else{
+    res.send('<script>alert("you are not allowed to enter here"); window.location.href = "/profile";</script>'); 
+  }
+ 
+}
+
+module.exports.EditProfile_post = async (req, res)=>{
+  let token = req.cookies.jwt
+  let userid = jwtDecode(token).id
+  let {email,facebook,linkedin} = req.body
+  let change = await User.update({email:email,facebook:facebook,linkedin:linkedin},{where:{
+    id:userid
+  }})
+
+  res.redirect(`/profile/${userid}`)
+}
+
+module.exports.Profile_get = async (req, res)=>{
+  let token = req.cookies.jwt
+  let openid = jwtDecode(token).id
+  let id = req.params.id;
+  let user =await User.findOne({where:{'id':id}})
+  let title = "Profile"
+  res.render("../Views/Profile.ejs",{user,title,userid:id,openid})
+}
