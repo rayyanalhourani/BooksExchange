@@ -1,0 +1,28 @@
+<%- include('./Shared/header.ejs'); %>
+
+
+    <div class="login-box" style="height: 370px;background-color: #76b852;">
+        <p style="text-align: center; font-size: 50px;margin: 0;font-weight: bold;">Add Book</p> 
+
+        <form action="/EditProfile" method="POST">
+            
+            <table class="t1">
+                <tr class="t1">
+                    <td class="t1"><label for="email">email</label></td>
+                    <td class="t1"><input type="email" name="email" class="input" value="<%= user.email %> "></td>
+                </tr>
+                <tr class="t1">
+                    <td class="t1"><label for="facebook">facebook</label></td>
+                    <td class="t1"><input type="text" name="facebook" class="input" value="<%= user.facebook %>"></td>
+                </tr>
+                <tr class="t1">
+                    <td class="t1"><label for="linkedin">linkedin</label></td>
+                    <td class="t1"> <input type="text" name="linkedin" class="input" value="<%= user.linkedin %>"></td>
+                </tr>
+            </table>
+            <input type="submit" class="input" value="Edit" style="width:100px; margin-left: 155px;">
+        </form>
+    </div>
+
+<%- include('./Shared/footer.ejs'); %>
+

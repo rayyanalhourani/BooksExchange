@@ -1,0 +1,31 @@
+<%- include('./Shared/header.ejs'); %>
+
+<div class="center">
+
+    <% if(user.email != null && user.email !=""){ %>
+        <div class="box"><h1><a href="mailto: <%= user.email %> ">email</a></h1></div>
+    <% } %>   
+
+     <% if(user.facebook != null && user.facebook !=""){ %>
+        <div class="box"><a href="<%=  user.facebook %> ">facebook</a></div>
+    <% }  %> 
+     <% if(user.linkedin != null && user.linkedin !=""){ %>
+        <div class="box"><a href="<%= user.linkedin  %>">linkedin</a></div>
+    <% } %>
+
+    <% if((user.linkedin == null || user.linkedin =="") && (user.facebook == null || user.facebook =="") && (user.email == null || user.email =="" )){ %>
+        <div class="box"><h1>no contact info</h1></div>
+    <% } %>
+
+    <% if(userid==openid){ %>
+        <input type="button" onclick="location.href='/EditProfile'"  value="Edit" />
+        <% } %>
+
+    
+    <div></div>
+
+</div>
+
+<%- include('./Shared/footer.ejs'); %>
+
+
