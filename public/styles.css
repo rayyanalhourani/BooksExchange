@@ -101,7 +101,7 @@
 
     /* nav bar end */
 
-    table{
+   table{
       border: 2px solid black;
       border-collapse: collapse;
        margin-left:auto;
@@ -117,6 +117,34 @@
    font-size: 18px;
    
   }
+
+  table.t1{
+      border:none;
+  }
+
+  tr.t1 , th.t1 , td.t1{
+   font-size: 18px;
+   border: none;
+   
+  }
+
+  
+  .center {
+   position: absolute; /* or absolute */
+   top: 50%;
+   left: 50%;
+ }
+
+ .box {
+   height: 50px;
+   width: 200px;
+   background-color:#76b852;
+text-align: center;
+ }
+
+ label{
+   font-size: large;
+ }
 
 
  
