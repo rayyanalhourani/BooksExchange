@@ -8,22 +8,24 @@ const User = require('../models/User')
 
 module.exports.home_get = async (req, res) => {
     let sql = "select books.id , books.name as book_name , books.collage , books.userId , users.name from books,users where users.name = (select name from users where id =  books.userId)"
-    
+    let token = req.cookies.jwt;
+    let userid = jwtDecode(token).id;
     let books = await DB.query(sql);
     books=books[0];
     let title= "Home Page"
-    res.render("../Views/home.ejs", { title, books});
+    res.render("../Views/home.ejs", { title, books,userid});
 
 };
 
 module.exports.AddBook_get = (req, res) => {
     let title= "Add book"
-    res.render("../Views/AddBook.ejs",{title});
+    let token = req.cookies.jwt;
+    let userid = jwtDecode(token).id;
+    res.render("../Views/AddBook.ejs",{title,userid});
 };
 
 module.exports.AddBook_post = async (req, res) => {
-    let name = req.body.name;
-    let collage = req.body.collage;
+    let { name ,collage } = req.body;
     let token = req.cookies.jwt;
     let userId = jwtDecode(token).id;
 
@@ -39,7 +41,6 @@ module.exports.AddBook_post = async (req, res) => {
             res.redirect('/Addbook')
         }
         else {
-
             res.send("<script>alert('book doesn't added'); window.location.href = '/Addbook'; </script>");
         }
     }
@@ -89,7 +90,7 @@ module.exports.myBooks_get =async (req, res) => {
     else{
         books = await Book.findAll({where:{'userId':userid}});
     }
-    res.render("../Views/MyBooks.ejs", {title , books});
+    res.render("../Views/MyBooks.ejs", {title , books , userid});
 
     
 };
